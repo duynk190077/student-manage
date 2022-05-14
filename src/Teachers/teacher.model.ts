@@ -8,7 +8,7 @@ export type TeacherDocument = Teacher & Document;
 export class Teacher {
   id?: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', unique: true })
   user: User;
 
   @Prop({ type: String, required: true })
