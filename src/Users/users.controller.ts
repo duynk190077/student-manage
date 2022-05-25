@@ -26,8 +26,9 @@ export class UsersController extends BaseController<User> {
   async login(
     @Body('username') username: string,
     @Body('password') password: string,
+    @Body('role') role: string,
   ): Promise<Object> {
-    return await this.userService.login(username, password);
+    return await this.userService.login(username, password, role);
   }
 
   @Put(':id/changePassword')

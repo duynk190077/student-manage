@@ -11,5 +11,6 @@ import { ParentSchema } from './parent.model';
   ],
   providers: [ParentsService],
   controllers: [ParentsController],
+  exports: [ParentsService],
 })
 export class ParentsModule {}

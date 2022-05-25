@@ -15,10 +15,16 @@ export class UsersService extends BaseService<User> {
     super(userModel);
   }
 
-  async login(username: string, password: string): Promise<Object> {
+  async login(
+    username: string,
+    password: string,
+    role: string,
+  ): Promise<Object> {
     const user = await this.validateUser(username, password);
-    if (!user) return { error: 'User or password is incorrect' };
+    if (!user || role !== user.roles)
+      return { error: 'User or password is incorrect' };
     return {
+      id: user.id,
       access_token: await this.authService.generatorJWT(
         await this.userRespone(user),
       ),

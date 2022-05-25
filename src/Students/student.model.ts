@@ -1,5 +1,5 @@
 import mongoose, { Document } from 'mongoose';
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 import { Parent } from 'src/parents/parent.model';
 import { Classroom } from 'src/Classrooms/classroom.model';
@@ -29,8 +29,20 @@ export class Student {
   @Prop({ type: String, required: true, unique: true })
   phoneNumber: string;
 
+  @Prop({ type: String, required: true })
+  nation: string;
+
   @Prop({ type: String, required: true, unique: true })
   nationId: string;
+
+  @Prop({ type: String, required: true })
+  address: string;
+
+  @Prop({ type: String, required: true })
+  permanentResidence: string;
+
+  @Prop({ type: String, required: true })
+  religion: string;
 
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Parent' }] })
   parents: Parent[];
