@@ -28,7 +28,7 @@ export class StudentsService extends BaseService<Student> {
   }
 
   private async studentRes(student: Student): Promise<any> {
-    const { _id, ...result } = JSON.parse(JSON.stringify(student));
+    const result = JSON.parse(JSON.stringify(student));
     const parents = await Promise.all(
       result.parents.map(async (p) => await this.parentService.findOne(p)),
     );
@@ -36,7 +36,6 @@ export class StudentsService extends BaseService<Student> {
       result.class,
     );
     return {
-      id: _id,
       ...result,
       parents: parents,
       class: classroom,

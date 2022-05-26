@@ -3,25 +3,49 @@ import { Model, Document } from 'mongoose';
 export class BaseService<Entity> {
   constructor(private entityModel: Model<Entity & Document>) {}
 
-  async create(entity: Entity): Promise<Entity> {
-    const newEntity = new this.entityModel(entity);
-    const result = await newEntity.save();
-    return result;
+  async create(entity: Entity): Promise<boolean> {
+    try {
+      const newEntity = new this.entityModel(entity);
+      const result = await newEntity.save();
+      return true;
+    } catch (err) {
+      return false;
+    }
   }
 
   async findOne(id: string): Promise<Entity> {
-    return await this.entityModel.findById(id);
+    return this.responeFormat(await this.entityModel.findById(id));
   }
 
   async findAll(): Promise<Entity[]> {
-    return await this.entityModel.find();
+    const entities = await this.entityModel.find();
+    return Promise.all(entities.map(async (entity) => await this.responeFormat(entity)));
   }
 
-  async delete(id: string): Promise<any> {
-    return await this.entityModel.deleteOne({ _id: id });
+  async delete(id: string): Promise<boolean> {
+    try {
+      await this.entityModel.deleteOne({ _id: id });
+      return true;
+    } catch (err) {
+      return false;
+    }
   }
 
-  async updateOne(id: string, entity: Entity): Promise<Entity> {
-    return await this.entityModel.findByIdAndUpdate(id, entity, { new: true });
+  async updateOne(id: string, entity: Entity): Promise<boolean> {
+    try {
+      const res = await this.entityModel.findByIdAndUpdate(id, entity, { new: true });
+      return true;  
+    } catch (err) {
+      console.log(err);
+      return false;
+    }
+  }
+
+  private async responeFormat(entity: Entity): Promise<any> {
+    const {_id, ...result} = JSON.parse(JSON.stringify(entity));
+    return {
+      id: _id,
+      ...result
+    }
   }
 }
