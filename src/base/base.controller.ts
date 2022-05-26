@@ -13,7 +13,7 @@ export class BaseController<Entity> {
   constructor(private entityService: BaseService<Entity>) {}
 
   @Post()
-  async create(@Body() entity: Entity): Promise<Entity> {
+  async create(@Body() entity: Entity): Promise<boolean> {
     return await this.entityService.create(entity);
   }
 
@@ -28,7 +28,7 @@ export class BaseController<Entity> {
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: string): Promise<any> {
+  async delete(@Param('id') id: string): Promise<boolean> {
     return await this.entityService.delete(id);
   }
 
@@ -36,7 +36,7 @@ export class BaseController<Entity> {
   async updateOne(
     @Param('id') id: string,
     @Body() entity: Entity,
-  ): Promise<Entity> {
+  ): Promise<boolean> {
     return await this.entityService.updateOne(id, entity);
   }
 }
