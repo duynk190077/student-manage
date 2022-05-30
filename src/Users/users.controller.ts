@@ -39,4 +39,9 @@ export class UsersController extends BaseController<User> {
   ): Promise<Object> {
     return await this.userService.changePassword(id, oldPassword, newPassword);
   }
+
+  @Post('logout')
+  async logout(@Body('id') id: string,): Promise<Object> {
+    return await this.userService.logout(id);
+  }
 }

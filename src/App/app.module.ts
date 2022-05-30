@@ -10,6 +10,8 @@ import { SubjectsModule } from 'src/Subjects/subjects.module';
 import { StudentModule } from 'src/Students/students.module';
 import { ParentsModule } from 'src/Parents/parents.module';
 import { ClassroomsModule } from 'src/Classrooms/classrooms.module';
+import { UsersLoginModule } from 'src/Users_login/users_login.module';
+import { TimetablesModule } from 'src/Timetables/timetables.module';
 
 @Module({
   imports: [
@@ -21,6 +23,8 @@ import { ClassroomsModule } from 'src/Classrooms/classrooms.module';
     ParentsModule,
     ClassroomsModule,
     StudentModule,
+    UsersLoginModule,
+    TimetablesModule
   ],
   controllers: [AppController],
   providers: [AppService],
