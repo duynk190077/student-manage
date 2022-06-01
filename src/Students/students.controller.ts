@@ -12,7 +12,7 @@ export class StudentsController extends BaseController<Student> {
 
   @Get(':id')
   async findOne(id: string): Promise<Student> {
-    return await this.studentService.findOneStudent(id);
+    return await this.studentService.findOneById(id);
   }
 
   @Get()

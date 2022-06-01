@@ -18,13 +18,21 @@ export class StudentsService extends BaseService<Student> {
     super(studentModel);
   }
 
-  async findOneStudent(userId: string): Promise<Student> {
+  async findOneByUserId(userId: string): Promise<Student> {
     return this.studentRes(await this.studentModel.findOne({ user: userId }));
+  }
+
+  async findOneById(id: string): Promise<Student> {
+    return this.studentRes(await this.findOne(id));
   }
 
   async findAllStudent(): Promise<any[]> {
     const students = await this.findAll();
     return Promise.all(students.map(async (p) => await this.studentRes(p)));
+  }
+
+  async countDocumentByClass(classId: string): Promise<Number> {
+    return await this.studentModel.countDocuments({ class: classId });
   }
 
   private async studentRes(student: Student): Promise<any> {
