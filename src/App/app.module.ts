@@ -7,7 +7,7 @@ import { AppService } from './app.service';
 import { UsersModule } from '../Users/users.module';
 import { TeachersModule } from 'src/Teachers/teachers.module';
 import { SubjectsModule } from 'src/Subjects/subjects.module';
-import { StudentModule } from 'src/Students/students.module';
+import { StudentsModule } from 'src/Students/students.module';
 import { ParentsModule } from 'src/Parents/parents.module';
 import { ClassroomsModule } from 'src/Classrooms/classrooms.module';
 import { UsersLoginModule } from 'src/Users_login/users_login.module';
@@ -22,7 +22,7 @@ import { TimetablesModule } from 'src/Timetables/timetables.module';
     SubjectsModule,
     ParentsModule,
     ClassroomsModule,
-    StudentModule,
+    StudentsModule,
     UsersLoginModule,
     TimetablesModule
   ],

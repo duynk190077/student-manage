@@ -6,13 +6,17 @@ import { UsersController } from './users.controller';
 import { UserSchema } from './user.model';
 import { AuthModule } from 'src/auth/auth.module';
 import { UsersLoginModule } from 'src/Users_login/users_login.module';
+import { StudentsModule } from 'src/Students/students.module';
+import { TeachersModule } from 'src/Teachers/teachers.module';
 
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
     AuthModule,
-    UsersLoginModule
+    UsersLoginModule,
+    StudentsModule,
+    TeachersModule
   ],
   providers: [UsersService],
   controllers: [UsersController],

@@ -12,6 +12,10 @@ export class TeachersService extends BaseService<Teacher> {
     super(teacherModel);
   }
 
+  async findOneByUserId(userId: string): Promise<Teacher> {
+    return this.teacherRespone(await this.teacherModel.findOne({ user: userId}));
+  }
+
   private async teacherRespone(teacher: Teacher): Promise<any> {
     return {
       id: teacher.id,

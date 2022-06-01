@@ -4,6 +4,8 @@ import { Model } from 'mongoose';
 
 import { AuthService } from 'src/auth/auth.service';
 import { BaseService } from 'src/base/base.service';
+import { StudentsService } from 'src/Students/students.service';
+import { TeachersService } from 'src/Teachers/teachers.service';
 import { UsersLoginService } from 'src/Users_login/users_login.service';
 import { User, UserDocument } from './user.model';
 
@@ -12,7 +14,9 @@ export class UsersService extends BaseService<User> {
   constructor(
     @InjectModel('User') private userModel: Model<UserDocument>,
     private authService: AuthService,
-    private userLoginService: UsersLoginService
+    private userLoginService: UsersLoginService,
+    private studentService: StudentsService,
+    private teacherService: TeachersService
   ) {
     super(userModel);
   }
@@ -28,15 +32,26 @@ export class UsersService extends BaseService<User> {
     const result = await this.userLoginService.create({userId: user.id});
     if (result === true)
     return {
-      id: user.id,
-      access_token: await this.authService.generatorJWT(
+      userId: user.id,
+      accessToken: await this.authService.generatorJWT(
         await this.userRespone(user),
       ),
+      userInfo: await this.userInfo(user.id, user.roles)
     };
-    else return { error: 'Cannot login' }
+    else return { error: 'You are logged' }
+  }
+
+  async getUserInfo(user: any): Promise<Object> {
+    const role = (await this.findOne(user.id)).roles
+    return {
+      userId: user.id,
+      userInfo: await this.userInfo(user.id, role),
+      role: role
+    }
   }
 
   async logout(id: string): Promise<Object> {
+    console.log(id);
     const user = await this.findOne(id);
     if (!user) return { error: 'User is not exist'}
     const userLogin = await this.userLoginService.findOneByUserId(id);
@@ -44,7 +59,7 @@ export class UsersService extends BaseService<User> {
     const result = await this.userLoginService.delete(userLogin.id);
     if (result === true)
       return {status: 'Logout successfully'};
-    else return { status: 'Cannot logout'}; 
+    else return { error: 'Cannot logout' }; 
   }
 
   async validateUser(username: string, password: string): Promise<User> {
@@ -81,5 +96,19 @@ export class UsersService extends BaseService<User> {
       id: user.id,
       username: user.username,
     };
+  }
+
+  private async userInfo(id: string, role: string): Promise<any> {
+    switch (role) {
+      case 'Student': {
+        return await this.studentService.findOneByUserId(id);
+      }
+      case 'Teacher': {
+        return await this.teacherService.findOneByUserId(id);
+      }
+      default: {
+        return null;
+      }
+    }
   }
 }

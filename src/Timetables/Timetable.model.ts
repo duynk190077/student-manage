@@ -1,5 +1,6 @@
 import { Document } from "mongoose";
 import { Schema, Prop, SchemaFactory } from "@nestjs/mongoose";
+import { Classroom } from "src/Classrooms/classroom.model";
 
 export type TimeTableDocument = TimeTable & Document;
 @Schema({ timestamps: true })
@@ -11,6 +12,9 @@ export class TimeTable {
 
     @Prop({ type: Number, required: true})
     week: string;
+
+    @Prop({ type: String, required: true})
+    class: Classroom;
 
     @Prop({ type: [{ type: String }] }) 
     monday: string[];

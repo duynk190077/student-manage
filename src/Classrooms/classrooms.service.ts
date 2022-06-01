@@ -1,14 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 import { BaseService } from 'src/base/base.service';
+import { StudentsService } from 'src/Students/students.service';
 import { TeachersService } from 'src/Teachers/teachers.service';
 import { Classroom, ClassroomDocument } from './classroom.model';
 
 @Injectable()
 export class ClassroomsService extends BaseService<Classroom> {
   constructor(
+    @Inject(forwardRef(() => StudentsService)) private studentService: StudentsService,
     @InjectModel('Classroom') private classroomModel: Model<ClassroomDocument>,
     private teacherService: TeachersService,
   ) {
@@ -31,15 +33,14 @@ export class ClassroomsService extends BaseService<Classroom> {
   }
 
   private async classroomRes(classroom: Classroom): Promise<any> {
-    const { _id, ...result } = JSON.parse(JSON.stringify(classroom));
+    const result = JSON.parse(JSON.stringify(classroom));
     const teacher = await this.teacherService.findOne(result.teacher);
+    const totalStudent = await this.studentService.countDocumentByClass(result.id);
     return {
-      id: _id,
+      id: result.id,
       name: result.name,
-      teacher: {
-        id: teacher.id,
-        name: `${teacher.firstName} ${teacher.lastName}`,
-      },
+      teacher: `${teacher.firstName} ${teacher.lastName}`,
+      totalStudent: totalStudent,
     };
   }
 }
