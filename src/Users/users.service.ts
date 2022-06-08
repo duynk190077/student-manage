@@ -51,7 +51,6 @@ export class UsersService extends BaseService<User> {
   }
 
   async logout(id: string): Promise<Object> {
-    console.log(id);
     const user = await this.findOne(id);
     if (!user) return { error: 'User is not exist'}
     const userLogin = await this.userLoginService.findOneByUserId(id);

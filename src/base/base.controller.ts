@@ -13,7 +13,7 @@ export class BaseController<Entity> {
   constructor(private entityService: BaseService<Entity>) {}
 
   @Post()
-  async create(@Body() entity: Entity): Promise<boolean> {
+  async create(@Body() entity: Entity): Promise<any> {
     return await this.entityService.create(entity);
   }
 

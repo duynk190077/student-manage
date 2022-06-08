@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, Param } from '@nestjs/common';
 
 import { BaseController } from 'src/base/base.controller';
 import { Classroom } from './classroom.model';
@@ -12,7 +12,7 @@ export class ClassroomsController extends BaseController<Classroom> {
 
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<Classroom> {
-    return await this.classroomService.findOneClassroom(id);
+    return await this.classroomService.getClassInfo(id);
   }
 
   @Get()

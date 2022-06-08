@@ -12,6 +12,7 @@ import { ParentsModule } from 'src/Parents/parents.module';
 import { ClassroomsModule } from 'src/Classrooms/classrooms.module';
 import { UsersLoginModule } from 'src/Users_login/users_login.module';
 import { TimetablesModule } from 'src/Timetables/timetables.module';
+import { TeachingModule } from 'src/Teachings/teaching.module';
 
 @Module({
   imports: [
@@ -24,7 +25,8 @@ import { TimetablesModule } from 'src/Timetables/timetables.module';
     ClassroomsModule,
     StudentsModule,
     UsersLoginModule,
-    TimetablesModule
+    TimetablesModule,
+    TeachingModule
   ],
   controllers: [AppController],
   providers: [AppService],
