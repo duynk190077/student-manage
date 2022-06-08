@@ -32,6 +32,16 @@ export class ClassroomsService extends BaseService<Classroom> {
     );
   }
 
+  async getClassInfo(id: string): Promise<any> {
+    const result = await this.classroomRes(await this.findOne(id));
+    const studentInClass = await this.studentService.findManyByClass(id);
+    return {
+      ...result,
+      students: studentInClass
+    }
+
+  }
+
   private async classroomRes(classroom: Classroom): Promise<any> {
     const result = JSON.parse(JSON.stringify(classroom));
     const teacher = await this.teacherService.findOne(result.teacher);

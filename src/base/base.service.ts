@@ -3,11 +3,11 @@ import { Model, Document } from 'mongoose';
 export class BaseService<Entity> {
   constructor(private entityModel: Model<Entity & Document>) {}
 
-  async create(entity: Entity): Promise<boolean> {
+  async create(entity: Entity): Promise<any> {
     try {
       const newEntity = new this.entityModel(entity);
       const result = await newEntity.save();
-      return true;
+      return result.id;
     } catch (err) {
       return false;
     }
@@ -36,7 +36,6 @@ export class BaseService<Entity> {
       const res = await this.entityModel.findByIdAndUpdate(id, entity, { new: true });
       return true;  
     } catch (err) {
-      console.log(err);
       return false;
     }
   }
