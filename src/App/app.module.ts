@@ -26,7 +26,7 @@ import { TeachingModule } from 'src/Teachings/teaching.module';
     StudentsModule,
     UsersLoginModule,
     TimetablesModule,
-    TeachingModule
+    TeachingModule,
   ],
   controllers: [AppController],
   providers: [AppService],

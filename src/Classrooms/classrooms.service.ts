@@ -10,7 +10,8 @@ import { Classroom, ClassroomDocument } from './classroom.model';
 @Injectable()
 export class ClassroomsService extends BaseService<Classroom> {
   constructor(
-    @Inject(forwardRef(() => StudentsService)) private studentService: StudentsService,
+    @Inject(forwardRef(() => StudentsService))
+    private studentService: StudentsService,
     @InjectModel('Classroom') private classroomModel: Model<ClassroomDocument>,
     private teacherService: TeachersService,
   ) {
@@ -37,15 +38,16 @@ export class ClassroomsService extends BaseService<Classroom> {
     const studentInClass = await this.studentService.findManyByClass(id);
     return {
       ...result,
-      students: studentInClass
-    }
-
+      students: studentInClass,
+    };
   }
 
   private async classroomRes(classroom: Classroom): Promise<any> {
     const result = JSON.parse(JSON.stringify(classroom));
     const teacher = await this.teacherService.findOne(result.teacher);
-    const totalStudent = await this.studentService.countDocumentByClass(result.id);
+    const totalStudent = await this.studentService.countDocumentByClass(
+      result.id,
+    );
     return {
       id: result.id,
       name: result.name,

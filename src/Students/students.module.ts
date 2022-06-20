@@ -15,6 +15,6 @@ import { ParentsModule } from 'src/Parents/parents.module';
   ],
   providers: [StudentsService],
   controllers: [StudentsController],
-  exports: [StudentsService]
+  exports: [StudentsService],
 })
 export class StudentsModule {}

@@ -23,7 +23,7 @@ export class TeachersController extends BaseController<Teacher> {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  async findManyBySubject (@Query('subject') subject: string): Promise<any> {
+  async findManyBySubject(@Query('subject') subject: string): Promise<any> {
     return await this.teacherService.findManyBySubject(subject);
   }
 

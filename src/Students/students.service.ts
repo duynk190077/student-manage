@@ -36,14 +36,14 @@ export class StudentsService extends BaseService<Student> {
   }
 
   async findManyByClass(classId: string): Promise<Student[]> {
-    const students =  await this.studentModel.find({ class: classId });
+    const students = await this.studentModel.find({ class: classId });
     return students.map((p) => {
-      const {_id, ...result} = JSON.parse(JSON.stringify(p));
+      const { _id, ...result } = JSON.parse(JSON.stringify(p));
       return {
         id: _id,
-        ...result
-      }
-    })
+        ...result,
+      };
+    });
   }
 
   private async studentRes(student: Student): Promise<any> {

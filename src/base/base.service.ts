@@ -9,6 +9,7 @@ export class BaseService<Entity> {
       const result = await newEntity.save();
       return result.id;
     } catch (err) {
+      console.log(err);
       return false;
     }
   }
@@ -19,7 +20,9 @@ export class BaseService<Entity> {
 
   async findAll(): Promise<Entity[]> {
     const entities = await this.entityModel.find();
-    return Promise.all(entities.map(async (entity) => await this.responeFormat(entity)));
+    return Promise.all(
+      entities.map(async (entity) => await this.responeFormat(entity)),
+    );
   }
 
   async delete(id: string): Promise<boolean> {
@@ -33,18 +36,20 @@ export class BaseService<Entity> {
 
   async updateOne(id: string, entity: Entity): Promise<boolean> {
     try {
-      const res = await this.entityModel.findByIdAndUpdate(id, entity, { new: true });
-      return true;  
+      const res = await this.entityModel.findByIdAndUpdate(id, entity, {
+        new: true,
+      });
+      return true;
     } catch (err) {
       return false;
     }
   }
 
   private async responeFormat(entity: Entity): Promise<any> {
-    const {_id, ...result} = JSON.parse(JSON.stringify(entity));
+    const { _id, ...result } = JSON.parse(JSON.stringify(entity));
     return {
       id: _id,
-      ...result
-    }
+      ...result,
+    };
   }
 }

@@ -6,10 +6,10 @@ import { UserLoginSchema } from './user_login.model';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{name: 'UserLogin', schema: UserLoginSchema}])
+    MongooseModule.forFeature([{ name: 'UserLogin', schema: UserLoginSchema }]),
   ],
   providers: [UsersLoginService],
   controllers: [UsersLoginController],
-  exports: [UsersLoginService]
+  exports: [UsersLoginService],
 })
 export class UsersLoginModule {}
