@@ -7,20 +7,22 @@ import { UserLogin, UserLoginDocument } from './user_login.model';
 
 @Injectable()
 export class UsersLoginService extends BaseService<UserLogin> {
-    constructor (@InjectModel('UserLogin') private userLoginModule: Model<UserLoginDocument>) {
-        super(userLoginModule);
-    }
+  constructor(
+    @InjectModel('UserLogin') private userLoginModule: Model<UserLoginDocument>,
+  ) {
+    super(userLoginModule);
+  }
 
-    async findOneByUserId(userId: string): Promise<UserLogin> {
-        return await this.userLoginModule.findOne({ userId: userId });
-    }
+  async findOneByUserId(userId: string): Promise<UserLogin> {
+    return await this.userLoginModule.findOne({ userId: userId });
+  }
 
-    async deleteOneByUserId(userId: string): Promise<boolean> {
-        try {
-            await this.userLoginModule.deleteOne({ userId: userId});
-            return true;
-        } catch (err) {
-            return false;
-        }
+  async deleteOneByUserId(userId: string): Promise<boolean> {
+    try {
+      await this.userLoginModule.deleteOne({ userId: userId });
+      return true;
+    } catch (err) {
+      return false;
     }
+  }
 }

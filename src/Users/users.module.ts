@@ -9,14 +9,13 @@ import { UsersLoginModule } from 'src/Users_login/users_login.module';
 import { StudentsModule } from 'src/Students/students.module';
 import { TeachersModule } from 'src/Teachers/teachers.module';
 
-
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
     AuthModule,
     UsersLoginModule,
     StudentsModule,
-    TeachersModule
+    TeachersModule,
   ],
   providers: [UsersService],
   controllers: [UsersController],

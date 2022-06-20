@@ -7,9 +7,9 @@ import { TimeTableSchema } from './Timetable.model';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: 'TimeTable', schema: TimeTableSchema}]),
+    MongooseModule.forFeature([{ name: 'TimeTable', schema: TimeTableSchema }]),
   ],
   providers: [TimetablesService],
-  controllers: [TimetablesController]
+  controllers: [TimetablesController],
 })
 export class TimetablesModule {}

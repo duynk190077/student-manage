@@ -10,7 +10,7 @@ import { Teacher, TeacherDocument } from './teacher.model';
 export class TeachersService extends BaseService<Teacher> {
   constructor(
     @InjectModel('Teacher') private teacherModel: Model<TeacherDocument>,
-    @Inject(forwardRef(() => UsersService)) private userService: UsersService
+    @Inject(forwardRef(() => UsersService)) private userService: UsersService,
   ) {
     super(teacherModel);
   }
@@ -21,32 +21,36 @@ export class TeachersService extends BaseService<Teacher> {
         username: entity.phoneNumber,
         password: entity.phoneNumber,
         roles: 'Teacher',
-      }
+      };
       const id = await this.userService.create(newUser);
       const newTeacher = {
         ...entity,
-        user: id
-      }
+        user: id,
+      };
       const result = await this.create(newTeacher);
       return result;
-    } catch(err) {
+    } catch (err) {
       return false;
     }
   }
 
   async findOneByUserId(userId: string): Promise<Teacher> {
-    return this.teacherRespone(await this.teacherModel.findOne({ user: userId}));
+    return this.teacherRespone(
+      await this.teacherModel.findOne({ user: userId }),
+    );
   }
 
   async findManyBySubject(subject: string): Promise<any> {
     const teachers = await this.teacherModel.find({ subject: subject });
-    return Promise.all(teachers.map((teacher) => {
-      const {_id, ...result} = JSON.parse(JSON.stringify(teacher));
-      return {
-        id: _id,
-        ...result
-      }
-    }))
+    return Promise.all(
+      teachers.map((teacher) => {
+        const { _id, ...result } = JSON.parse(JSON.stringify(teacher));
+        return {
+          id: _id,
+          ...result,
+        };
+      }),
+    );
   }
 
   private async teacherRespone(teacher: Teacher): Promise<any> {

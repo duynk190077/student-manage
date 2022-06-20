@@ -16,7 +16,7 @@ export class UsersService extends BaseService<User> {
     private authService: AuthService,
     private userLoginService: UsersLoginService,
     private studentService: StudentsService,
-    private teacherService: TeachersService
+    private teacherService: TeachersService,
   ) {
     super(userModel);
   }
@@ -29,36 +29,35 @@ export class UsersService extends BaseService<User> {
     const user = await this.validateUser(username, password);
     if (!user || role !== user.roles)
       return { error: 'User or password is incorrect' };
-    const result = await this.userLoginService.create({userId: user.id});
+    const result = await this.userLoginService.create({ userId: user.id });
     if (result === true)
-    return {
-      userId: user.id,
-      accessToken: await this.authService.generatorJWT(
-        await this.userRespone(user),
-      ),
-      userInfo: await this.userInfo(user.id, user.roles)
-    };
-    else return { error: 'You are logged' }
+      return {
+        userId: user.id,
+        accessToken: await this.authService.generatorJWT(
+          await this.userRespone(user),
+        ),
+        userInfo: await this.userInfo(user.id, user.roles),
+      };
+    else return { error: 'You are logged' };
   }
 
   async getUserInfo(user: any): Promise<Object> {
-    const role = (await this.findOne(user.id)).roles
+    const role = (await this.findOne(user.id)).roles;
     return {
       userId: user.id,
       userInfo: await this.userInfo(user.id, role),
-      role: role
-    }
+      role: role,
+    };
   }
 
   async logout(id: string): Promise<Object> {
     const user = await this.findOne(id);
-    if (!user) return { error: 'User is not exist'}
+    if (!user) return { error: 'User is not exist' };
     const userLogin = await this.userLoginService.findOneByUserId(id);
-    if (!userLogin) return { error: 'User is not login' }
+    if (!userLogin) return { error: 'User is not login' };
     const result = await this.userLoginService.delete(userLogin.id);
-    if (result === true)
-      return {status: 'Logout successfully'};
-    else return { error: 'Cannot logout' }; 
+    if (result === true) return { status: 'Logout successfully' };
+    else return { error: 'Cannot logout' };
   }
 
   async validateUser(username: string, password: string): Promise<User> {

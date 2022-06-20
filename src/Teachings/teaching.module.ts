@@ -7,11 +7,11 @@ import { TeachersModule } from 'src/Teachers/teachers.module';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: 'Teaching', schema: TeachingSchema}]),
-    TeachersModule
+    MongooseModule.forFeature([{ name: 'Teaching', schema: TeachingSchema }]),
+    TeachersModule,
   ],
   providers: [TeachingService],
   controllers: [TeachingController],
-  exports: [TeachingService]
+  exports: [TeachingService],
 })
 export class TeachingModule {}

@@ -55,8 +55,7 @@ export class UsersController extends BaseController<User> {
   }
 
   @Post('logout')
-  async logout(@Body('id') id: string,): Promise<Object> {
+  async logout(@Body('id') id: string): Promise<Object> {
     return await this.userService.logout(id);
   }
-
 }
