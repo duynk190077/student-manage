@@ -13,7 +13,7 @@ export class User {
   @Prop({ type: String, required: true })
   password: string;
 
-  @Prop({ enum: ['Stdudent', 'Admin', 'Teacher'] })
+  @Prop({ enum: ['Student', 'Admin', 'Teacher'] })
   roles: string;
 }
 

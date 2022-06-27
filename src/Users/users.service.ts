@@ -21,6 +21,18 @@ export class UsersService extends BaseService<User> {
     super(userModel);
   }
 
+  async create(entity: User): Promise<any> {
+    try {
+      entity.password = await this.authService.hashPassword(entity.password);
+      const newUser = new this.userModel(entity);
+      const result = await newUser.save();
+      return result.id;
+    } catch (error) {
+      return false;
+    }
+
+  }
+
   async login(
     username: string,
     password: string,
@@ -30,7 +42,7 @@ export class UsersService extends BaseService<User> {
     if (!user || role !== user.roles)
       return { error: 'User or password is incorrect' };
     const result = await this.userLoginService.create({ userId: user.id });
-    if (result === true)
+    if (result !== false)
       return {
         userId: user.id,
         accessToken: await this.authService.generatorJWT(
