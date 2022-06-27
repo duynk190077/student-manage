@@ -5,7 +5,6 @@ import { Model } from 'mongoose';
 import { BaseService } from 'src/base/base.service';
 import { ClassroomsService } from 'src/Classrooms/classrooms.service';
 import { ParentsService } from 'src/Parents/parents.service';
-import { resourceLimits } from 'worker_threads';
 import { Student, StudentDocument } from './student.model';
 
 @Injectable()
@@ -16,6 +15,15 @@ export class StudentsService extends BaseService<Student> {
     private parentService: ParentsService,
   ) {
     super(studentModel);
+  }
+
+  async updateImg(userId: string, imageUrl: string): Promise<any> {
+    try { 
+      const result = await this.studentModel.findOneAndUpdate({ user: userId }, { image: imageUrl }, { new: true });
+      return imageUrl;
+    } catch(error) {
+      return false;
+    }
   }
 
   async findOneByUserId(userId: string): Promise<Student> {

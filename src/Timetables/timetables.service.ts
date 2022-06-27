@@ -32,4 +32,13 @@ export class TimetablesService extends BaseService<TimeTable> {
       }),
     );
   }
+
+  async filterBySemesterAndClass(semester: string, week: string, className: string): Promise<TimeTable> {
+    const timetable = await this.timeTableModel.findOne({ semester: semester, week: week, class: className})
+    const {_id, ...result} = JSON.parse(JSON.stringify(timetable));
+    return {
+      id: _id,
+      ...result
+    }
+  }
 }
