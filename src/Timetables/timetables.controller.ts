@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, Req, UseGuards } from '@nestjs/common';
+import { request } from 'http';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { BaseController } from 'src/base/base.controller';
 import { TimeTable } from './Timetable.model';
@@ -31,4 +32,16 @@ export class TimetablesController extends BaseController<TimeTable> {
   ): Promise<TimeTable> {
     return await this.timeTableService.filterBySemesterAndClass(semester, week, className);
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('/teacher/:teacherId')
+  async findByTeacher(
+    @Param('teacherId') teacherId: string,
+    @Body('semester') semester: string,
+    @Body('week') week: string,
+    @Body('type') type: string,
+  ): Promise<any> {
+    return await this.timeTableService.findForTeacher(semester, week, teacherId, type);
+  }
+
 }
