@@ -15,6 +15,15 @@ export class TeachersService extends BaseService<Teacher> {
     super(teacherModel);
   }
 
+  async updateImg(userId: string, imageUrl: string): Promise<any> {
+    try { 
+      const result = await this.teacherModel.findOneAndUpdate({ user: userId }, { image: imageUrl }, { new: true });
+      return imageUrl;
+    } catch(error) {
+      return false;
+    }
+  }
+
   async createTeacher(entity: Teacher): Promise<any> {
     try {
       const newUser: User = {

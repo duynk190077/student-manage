@@ -13,6 +13,7 @@ import { ClassroomsModule } from 'src/Classrooms/classrooms.module';
 import { UsersLoginModule } from 'src/Users_login/users_login.module';
 import { TimetablesModule } from 'src/Timetables/timetables.module';
 import { TeachingModule } from 'src/Teachings/teaching.module';
+import { SemestersModule } from 'src/Semesters/semesters.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { TeachingModule } from 'src/Teachings/teaching.module';
     UsersLoginModule,
     TimetablesModule,
     TeachingModule,
+    SemestersModule
   ],
   controllers: [AppController],
   providers: [AppService],

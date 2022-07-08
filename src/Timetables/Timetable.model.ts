@@ -13,8 +13,11 @@ export class TimeTable {
   @Prop({ type: String, required: true })
   week: string;
 
+  @Prop({ enum: ['Sáng', 'Chiều'], default: 'Sáng' })
+  type: string;
+
   @Prop({ type: String, required: true })
-  class: Classroom;
+  class: string;
 
   @Prop({ type: [{ type: String }] })
   monday: string[];

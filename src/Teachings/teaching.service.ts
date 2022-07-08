@@ -19,6 +19,10 @@ export class TeachingService extends BaseService<Teaching> {
     return Promise.all(result.map(async (p) => await this.teachingRespone(p)));
   }
 
+  async teachingofTeacher(teacherId: string): Promise<Teaching[]> {
+    return await this.teachingModel.find({ teacher: teacherId })
+  }
+
   private async teachingRespone(teaching: Teaching): Promise<any> {
     const { _id, ...result } = JSON.parse(JSON.stringify(teaching));
     const teacher = await this.teacherService.findOne(result.teacher);
