@@ -52,6 +52,12 @@ export class TeachersController extends BaseController<Teacher> {
     return res.sendFile(join(process.cwd(), 'uploads/avatars/' + imagename));
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Get('/student-mark/:id')
+  async findStudentMarks(@Param('id') id: string, @Query('semester') semester: string) {
+    return await this.teacherService.findMarks(semester, id);
+  }
+
   @UseGuards(JwtAuthGuard)  
   @Post('upload')
   @UseInterceptors(FileInterceptor('file', storage))

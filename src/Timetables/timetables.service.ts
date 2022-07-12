@@ -47,7 +47,7 @@ export class TimetablesService extends BaseService<TimeTable> {
     }
   }
 
-  async findBySemesterAndWeek(semester: string, week: string, classrooms: Classroom[], type: string): Promise<TimeTable[]> {
+  async findBySemesterAndWeek(semester: string, week: string, classrooms: string[], type: string): Promise<TimeTable[]> {
     return await this.timeTableModel.find({ semester: semester, week: week, type: type, class: { $in: classrooms } });
   }
 

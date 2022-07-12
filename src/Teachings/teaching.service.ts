@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { BaseService } from 'src/base/base.service';
@@ -9,7 +9,7 @@ import { Teaching, TeachingDocument } from './teaching.model';
 export class TeachingService extends BaseService<Teaching> {
   constructor(
     @InjectModel('Teaching') private teachingModel: Model<TeachingDocument>,
-    private teacherService: TeachersService,
+    @Inject(forwardRef(() => TeachersService)) private teacherService: TeachersService,
   ) {
     super(teachingModel);
   }
