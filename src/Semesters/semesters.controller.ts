@@ -5,12 +5,12 @@ import { SemestersService } from './semesters.service';
 
 @Controller('semesters')
 export class SemestersController extends BaseController<Semester> {
-    constructor (private readonly semesterService: SemestersService) {
-        super(semesterService);
-    }
+  constructor(private readonly semesterService: SemestersService) {
+    super(semesterService);
+  }
 
-    @Get('/get-current')
-    async findSemesterCurrent(): Promise<any> {
-        return await this.semesterService.getSemesterCurrent();
-    }
+  @Get('/get-current')
+  async findSemesterCurrent(): Promise<any> {
+    return await this.semesterService.getSemesterCurrent();
+  }
 }

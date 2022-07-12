@@ -23,7 +23,10 @@ export class UsersService extends BaseService<User> {
 
   async create(entity: User): Promise<any> {
     try {
-      entity = {...entity, password: await this.authService.hashPassword(entity.password)}
+      entity = {
+        ...entity,
+        password: await this.authService.hashPassword(entity.password),
+      };
       const newUser = new this.userModel(entity);
       const result = await newUser.save();
       return result.id;

@@ -18,10 +18,14 @@ export class StudentsService extends BaseService<Student> {
   }
 
   async updateImg(userId: string, imageUrl: string): Promise<any> {
-    try { 
-      const result = await this.studentModel.findOneAndUpdate({ user: userId }, { image: imageUrl }, { new: true });
+    try {
+      const result = await this.studentModel.findOneAndUpdate(
+        { user: userId },
+        { image: imageUrl },
+        { new: true },
+      );
       return imageUrl;
-    } catch(error) {
+    } catch (error) {
       return false;
     }
   }

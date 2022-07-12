@@ -28,7 +28,7 @@ import { SemestersModule } from 'src/Semesters/semesters.module';
     UsersLoginModule,
     TimetablesModule,
     TeachingModule,
-    SemestersModule
+    SemestersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

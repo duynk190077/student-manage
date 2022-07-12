@@ -11,7 +11,7 @@ import { TeachersModule } from 'src/Teachers/teachers.module';
   imports: [
     MongooseModule.forFeature([{ name: 'TimeTable', schema: TimeTableSchema }]),
     TeachingModule,
-    TeachersModule
+    TeachersModule,
   ],
   providers: [TimetablesService],
   controllers: [TimetablesController],

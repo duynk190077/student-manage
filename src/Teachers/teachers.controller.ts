@@ -31,11 +31,14 @@ export class TeachersController extends BaseController<Teacher> {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  async findManyBySubject(@Query('_v') v: string, @Query('subject') subject: string): Promise<any> {
-    if (v === 'filter') return await this.teacherService.findManyBySubject(subject);
+  async findManyBySubject(
+    @Query('_v') v: string,
+    @Query('subject') subject: string,
+  ): Promise<any> {
+    if (v === 'filter')
+      return await this.teacherService.findManyBySubject(subject);
     return await this.findAll();
   }
-
 
   @Post()
   async create(@Body() teacher: Teacher): Promise<any> {
@@ -54,15 +57,18 @@ export class TeachersController extends BaseController<Teacher> {
 
   @UseGuards(JwtAuthGuard)
   @Get('/student-mark/:id')
-  async findStudentMarks(@Param('id') id: string, @Query('semester') semester: string) {
+  async findStudentMarks(
+    @Param('id') id: string,
+    @Query('semester') semester: string,
+  ) {
     return await this.teacherService.findMarks(semester, id);
   }
 
-  @UseGuards(JwtAuthGuard)  
+  @UseGuards(JwtAuthGuard)
   @Post('upload')
   @UseInterceptors(FileInterceptor('file', storage))
   async uploadImg(@UploadedFile() file, @Req() request): Promise<Object> {
-    return await this.teacherService.updateImg(request.user.id, file.filename)
+    return await this.teacherService.updateImg(request.user.id, file.filename);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -70,7 +76,7 @@ export class TeachersController extends BaseController<Teacher> {
   async deleteAvatar(@Param('imagename') imagename: string): Promise<any> {
     await fs.unlink(`uploads/avatars/${imagename}`, (err) => {
       if (err) return err;
-      return true; 
-    })
+      return true;
+    });
   }
 }

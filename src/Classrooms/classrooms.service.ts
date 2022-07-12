@@ -19,7 +19,7 @@ export class ClassroomsService extends BaseService<Classroom> {
   }
 
   async findOneClassroom(id: string): Promise<any> {
-    const classroom =  await this.classroomRes(await this.findOne(id));
+    const classroom = await this.classroomRes(await this.findOne(id));
     return classroom;
   }
 
