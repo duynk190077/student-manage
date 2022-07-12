@@ -23,7 +23,10 @@ export class UsersService extends BaseService<User> {
 
   async create(entity: User): Promise<any> {
     try {
-      entity = {...entity, password: await this.authService.hashPassword(entity.password)}
+      entity = {
+        ...entity,
+        password: await this.authService.hashPassword(entity.password),
+      };
       const newUser = new this.userModel(entity);
       const result = await newUser.save();
       return result.id;
@@ -41,16 +44,13 @@ export class UsersService extends BaseService<User> {
     const user = await this.validateUser(username, password);
     if (!user || role !== user.roles)
       return { error: 'User or password is incorrect' };
-    const result = await this.userLoginService.create({ userId: user.id });
-    if (result !== false)
-      return {
-        userId: user.id,
-        accessToken: await this.authService.generatorJWT(
-          await this.userRespone(user),
-        ),
-        userInfo: await this.userInfo(user.id, user.roles),
-      };
-    else return { error: 'You are logged' };
+    return {
+      userId: user.id,
+      accessToken: await this.authService.generatorJWT(
+        await this.userRespone(user),
+      ),
+      userInfo: await this.userInfo(user.id, user.roles),
+    };
   }
 
   async getUserInfo(user: any): Promise<Object> {

@@ -18,8 +18,13 @@ export class ClassroomsService extends BaseService<Classroom> {
     super(classroomModel);
   }
 
-  async findOneClassroom(id: string): Promise<Classroom> {
-    return this.classroomRes(await this.findOne(id));
+  async findOneClassroom(id: string): Promise<any> {
+    const classroom = await this.classroomRes(await this.findOne(id));
+    return classroom;
+  }
+
+  async findClassByName(classname: string): Promise<Classroom> {
+    return await this.classroomModel.findOne({ name: classname });
   }
 
   async findAllClassroom(): Promise<any[]> {

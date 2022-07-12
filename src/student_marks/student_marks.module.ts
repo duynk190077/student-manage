@@ -6,9 +6,12 @@ import { StudentMarkSchema } from './student_mark.model';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: 'Student_mark', schema: StudentMarkSchema }])
+    MongooseModule.forFeature([
+      { name: 'Student_mark', schema: StudentMarkSchema },
+    ]),
   ],
   providers: [StudentMarksService],
-  controllers: [StudentMarksController]
+  controllers: [StudentMarksController],
+  exports: [StudentMarksService],
 })
 export class StudentMarksModule {}

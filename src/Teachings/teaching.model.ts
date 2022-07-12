@@ -1,6 +1,5 @@
 import mongoose, { Document } from 'mongoose';
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Classroom } from 'src/Classrooms/classroom.model';
 import { Teacher } from 'src/Teachers/teacher.model';
 import { Subject } from 'src/Subjects/subject.model';
 
@@ -14,10 +13,10 @@ export class Teaching {
   semester: string;
 
   @Prop({ type: String, required: true })
-  class: Classroom;
+  class: string;
 
   @Prop({ type: String, required: true })
-  subject: Subject;
+  subject: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, required: true })
   teacher: Teacher;

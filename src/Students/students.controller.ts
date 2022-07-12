@@ -1,4 +1,16 @@
-import { Controller, Delete, Get, Param, Post, Req, Res, StreamableFile, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import {
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Req,
+  Res,
+  StreamableFile,
+  UploadedFile,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 import { BaseController } from 'src/base/base.controller';
@@ -30,11 +42,11 @@ export class StudentsController extends BaseController<Student> {
     return res.sendFile(join(process.cwd(), 'uploads/avatars/' + imagename));
   }
 
-  @UseGuards(JwtAuthGuard)  
+  @UseGuards(JwtAuthGuard)
   @Post('upload')
   @UseInterceptors(FileInterceptor('file', storage))
   async uploadImg(@UploadedFile() file, @Req() request): Promise<Object> {
-    return await this.studentService.updateImg(request.user.id, file.filename)
+    return await this.studentService.updateImg(request.user.id, file.filename);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -42,7 +54,7 @@ export class StudentsController extends BaseController<Student> {
   async deleteAvatar(@Param('imagename') imagename: string): Promise<any> {
     await fs.unlink(`uploads/avatars/${imagename}`, (err) => {
       if (err) return err;
-      return true; 
-    })
+      return true;
+    });
   }
 }

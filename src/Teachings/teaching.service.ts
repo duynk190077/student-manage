@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { BaseService } from 'src/base/base.service';
@@ -9,6 +9,7 @@ import { Teaching, TeachingDocument } from './teaching.model';
 export class TeachingService extends BaseService<Teaching> {
   constructor(
     @InjectModel('Teaching') private teachingModel: Model<TeachingDocument>,
+    @Inject(forwardRef(() => TeachersService))
     private teacherService: TeachersService,
   ) {
     super(teachingModel);
@@ -20,7 +21,7 @@ export class TeachingService extends BaseService<Teaching> {
   }
 
   async teachingofTeacher(teacherId: string): Promise<Teaching[]> {
-    return await this.teachingModel.find({ teacher: teacherId })
+    return await this.teachingModel.find({ teacher: teacherId });
   }
 
   private async teachingRespone(teaching: Teaching): Promise<any> {

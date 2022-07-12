@@ -6,10 +6,10 @@ import { SemesterSchema } from './semester.model';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: 'Semester', schema: SemesterSchema }])
+    MongooseModule.forFeature([{ name: 'Semester', schema: SemesterSchema }]),
   ],
   providers: [SemestersService],
   controllers: [SemestersController],
-  exports: [SemestersService]
+  exports: [SemestersService],
 })
 export class SemestersModule {}
