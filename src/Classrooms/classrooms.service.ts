@@ -49,14 +49,17 @@ export class ClassroomsService extends BaseService<Classroom> {
 
   private async classroomRes(classroom: Classroom): Promise<any> {
     const result = JSON.parse(JSON.stringify(classroom));
-    const teacher = await this.teacherService.findOne(result.teacher);
+    const teacher = result?.teacher
+      ? await this.teacherService.findOne(result.teacher)
+      : null;
     const totalStudent = await this.studentService.countDocumentByClass(
       result.id,
     );
     return {
       id: result.id,
       name: result.name,
-      teacher: `${teacher.firstName} ${teacher.lastName}`,
+      teacher:
+        teacher !== null ? `${teacher.firstName} ${teacher.lastName}` : '',
       totalStudent: totalStudent,
     };
   }

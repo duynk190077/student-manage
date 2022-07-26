@@ -27,6 +27,7 @@ export class TimetablesController extends BaseController<TimeTable> {
     @Query('semester') semester: string,
     @Query('week') week: string,
     @Query('class-group') classGroup: string,
+    @Query('type') type: string,
   ): Promise<TimeTable[]> {
     if (v !== 'filter') return await this.timeTableService.findAll();
     else
@@ -34,6 +35,7 @@ export class TimetablesController extends BaseController<TimeTable> {
         semester,
         week,
         classGroup,
+        type,
       );
   }
 
@@ -43,11 +45,13 @@ export class TimetablesController extends BaseController<TimeTable> {
     @Param('className') className: string,
     @Body('semester') semester: string,
     @Body('week') week: string,
+    @Body('type') type: string,
   ): Promise<TimeTable> {
     return await this.timeTableService.filterBySemesterAndClass(
       semester,
       week,
       className,
+      type,
     );
   }
 
