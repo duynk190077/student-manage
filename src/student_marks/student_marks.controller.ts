@@ -39,6 +39,6 @@ export class StudentMarksController extends BaseController<StudentMark> {
     @Param('id') id: string,
     @Body() studentMark: StudentMark,
   ): Promise<boolean> {
-    return await this.studentMarkService.updateOne(id, studentMark);
+    return await this.studentMarkService.updateOneMark(id, studentMark);
   }
 }

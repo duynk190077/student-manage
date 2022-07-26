@@ -25,6 +25,9 @@ export class StudentMark {
 
   @Prop({ type: [{ type: Number }], required: true })
   factor3: number[];
+
+  @Prop({ type: Number, required: true })
+  total: number;
 }
 
 export const StudentMarkSchema = SchemaFactory.createForClass(StudentMark);

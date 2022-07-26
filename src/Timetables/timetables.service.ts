@@ -21,11 +21,13 @@ export class TimetablesService extends BaseService<TimeTable> {
     semester: string,
     week: string,
     classGroup: string,
+    type: string,
   ): Promise<any[]> {
     const timetables = await this.timeTableModel.find({
       semester: semester,
       week: week,
       class: { $regex: classGroup, $options: 'i' },
+      type: type,
     });
     return Promise.all(
       timetables.map((p) => {
@@ -42,11 +44,13 @@ export class TimetablesService extends BaseService<TimeTable> {
     semester: string,
     week: string,
     className: string,
+    type: string,
   ): Promise<TimeTable> {
     const timetable = await this.timeTableModel.findOne({
       semester: semester,
       week: week,
       class: className,
+      type: type,
     });
     const { _id, ...result } = JSON.parse(JSON.stringify(timetable));
     return {
@@ -119,7 +123,6 @@ export class TimetablesService extends BaseService<TimeTable> {
       index = p.saturday.findIndex((subject) => subject === teacher.subject);
       if (index !== -1) result.saturday[index] = p.class;
     });
-    console.log(result);
     return result;
   }
 }

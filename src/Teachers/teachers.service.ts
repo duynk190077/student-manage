@@ -115,6 +115,10 @@ export class TeachersService extends BaseService<Teacher> {
     return result;
   }
 
+  async countDocumentAnalytic(): Promise<number> {
+    return await this.teacherModel.countDocuments({});
+  }
+
   private async teacherRespone(teacher: Teacher): Promise<any> {
     return {
       id: teacher.id,

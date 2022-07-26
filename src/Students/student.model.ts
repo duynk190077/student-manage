@@ -20,7 +20,7 @@ export class Student {
   @Prop({ type: String, required: true })
   lastName: string;
 
-  @Prop({ type: String, enum: ['Name', 'Nữ'], required: true })
+  @Prop({ type: String, enum: ['Nam', 'Nữ'], required: true })
   gender: string;
 
   @Prop({ type: Date, required: true })
@@ -51,7 +51,7 @@ export class Student {
   class: Classroom;
 
   @Prop({ type: Number, required: true })
-  yearJoin: Number;
+  yearJoin: number;
 
   @Prop({ type: String, enum: ['Học', 'Tốt nghiệp'], default: 'Học' })
   status: string;

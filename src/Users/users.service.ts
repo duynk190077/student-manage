@@ -31,7 +31,6 @@ export class UsersService extends BaseService<User> {
       const result = await newUser.save();
       return result.id;
     } catch (error) {
-      console.log(error);
       return false;
     }
   }
@@ -65,11 +64,7 @@ export class UsersService extends BaseService<User> {
   async logout(id: string): Promise<Object> {
     const user = await this.findOne(id);
     if (!user) return { error: 'User is not exist' };
-    const userLogin = await this.userLoginService.findOneByUserId(id);
-    if (!userLogin) return { error: 'User is not login' };
-    const result = await this.userLoginService.delete(userLogin.id);
-    if (result === true) return { status: 'Logout successfully' };
-    else return { error: 'Cannot logout' };
+    else return { status: 'Logout successfully' };
   }
 
   async validateUser(username: string, password: string): Promise<User> {

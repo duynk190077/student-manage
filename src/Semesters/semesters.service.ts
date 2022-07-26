@@ -2,12 +2,18 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { BaseService } from 'src/base/base.service';
+import { StudentsService } from 'src/Students/students.service';
+import { StudentMarksService } from 'src/Student_marks/student_marks.service';
+import { TeachersService } from 'src/Teachers/teachers.service';
 import { Semester, SemesterDocument } from './semester.model';
 
 @Injectable()
 export class SemestersService extends BaseService<Semester> {
   constructor(
     @InjectModel('Semester') private semesterModel: Model<SemesterDocument>,
+    private studentService: StudentsService,
+    private teacherService: TeachersService,
+    private studentMarkService: StudentMarksService,
   ) {
     super(semesterModel);
   }
@@ -18,6 +24,17 @@ export class SemestersService extends BaseService<Semester> {
       .sort({ createdAt: 1 });
     return await this.getSemesterRespone(semester);
   }
+
+  async semesterAnalytics(semester: string): Promise<any> {
+    const studentAnalytics = await this.studentService.countDocumentAnalytic();
+    const totalTeacher = await this.teacherService.countDocumentAnalytic();
+    return {
+      ...studentAnalytics,
+      totalTeacher,
+    };
+  }
+
+  async semesterResult(semester: string): Promise<any> {}
 
   private async getSemesterRespone(semester: Semester): Promise<any> {
     const startedDate = this.getFirstDayofWeek(semester.createdAt);

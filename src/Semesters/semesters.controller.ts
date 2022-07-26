@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { BaseController } from 'src/base/base.controller';
 import { Semester } from './semester.model';
 import { SemestersService } from './semesters.service';
@@ -12,5 +12,12 @@ export class SemestersController extends BaseController<Semester> {
   @Get('/get-current')
   async findSemesterCurrent(): Promise<any> {
     return await this.semesterService.getSemesterCurrent();
+  }
+
+  @Get('/analytics/:semester')
+  async GetSemesterAnalytics(
+    @Param('semester') semester: string,
+  ): Promise<any> {
+    return await this.semesterService.semesterAnalytics(semester);
   }
 }
