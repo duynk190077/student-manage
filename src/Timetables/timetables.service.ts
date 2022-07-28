@@ -52,6 +52,7 @@ export class TimetablesService extends BaseService<TimeTable> {
       class: className,
       type: type,
     });
+    if (timetable === null) return null;
     const { _id, ...result } = JSON.parse(JSON.stringify(timetable));
     return {
       id: _id,

@@ -10,10 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { Request } from 'express';
-
-import { hasRole } from 'src/auth/decorators/role.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { RolesGuard } from 'src/auth/guards/roles-guard';
 import { BaseController } from 'src/base/base.controller';
 
 import { User } from './user.model';
@@ -31,6 +28,7 @@ export class UsersController extends BaseController<User> {
     return await this.userService.getUserInfo(request.user);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   async findOne(id: string): Promise<User> {
     return await this.userService.findOne(id);
@@ -45,6 +43,7 @@ export class UsersController extends BaseController<User> {
     return await this.userService.login(username, password, role);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put(':id/changePassword')
   async changePassword(
     @Param('id') id: string,
@@ -54,6 +53,7 @@ export class UsersController extends BaseController<User> {
     return await this.userService.changePassword(id, oldPassword, newPassword);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('logout')
   async logout(@Body('id') id: string): Promise<Object> {
     return await this.userService.logout(id);

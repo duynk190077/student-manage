@@ -15,7 +15,7 @@ export class StudentMark {
   subject: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Student' })
-  student: Student;
+  student: string;
 
   @Prop({ type: [{ type: Number }], required: true })
   factor1: number[];

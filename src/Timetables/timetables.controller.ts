@@ -15,12 +15,12 @@ import { TimeTable } from './Timetable.model';
 import { TimetablesService } from './timetables.service';
 
 @Controller('timetables')
+@UseGuards(JwtAuthGuard)
 export class TimetablesController extends BaseController<TimeTable> {
   constructor(private timeTableService: TimetablesService) {
     super(timeTableService);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get()
   async findMany(
     @Query('_v') v: string,
@@ -39,7 +39,6 @@ export class TimetablesController extends BaseController<TimeTable> {
       );
   }
 
-  @UseGuards(JwtAuthGuard)
   @Post('/:className')
   async findByClass(
     @Param('className') className: string,
@@ -55,7 +54,6 @@ export class TimetablesController extends BaseController<TimeTable> {
     );
   }
 
-  @UseGuards(JwtAuthGuard)
   @Post('/teacher/:teacherId')
   async findByTeacher(
     @Param('teacherId') teacherId: string,

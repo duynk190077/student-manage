@@ -31,10 +31,16 @@ export class StudentsService extends BaseService<Student> {
       const id = await this.userService.create(newUser);
       const fatherId = await this.parentService.create(entity.father);
       const motherId = await this.parentService.create(entity.mother);
+      const { _id, ...classroom } = JSON.parse(
+        JSON.stringify(
+          await this.classroomService.findClassByName(entity.class),
+        ),
+      );
       const newStudent = new this.studentModel({
         ...student,
         parents: [fatherId, motherId],
         user: id,
+        class: _id,
       });
       const result = await newStudent.save();
       return result.id;
@@ -42,6 +48,19 @@ export class StudentsService extends BaseService<Student> {
       console.log(err);
       return false;
     }
+  }
+
+  async findAll(): Promise<Student[]> {
+    const students = await this.studentModel.find({ status: 'Học' });
+    return Promise.all(
+      students.map((student) => {
+        const { _id, ...result } = JSON.parse(JSON.stringify(student));
+        return {
+          id: _id,
+          ...result,
+        };
+      }),
+    );
   }
 
   async updateImg(userId: string, imageUrl: string): Promise<any> {
@@ -68,6 +87,19 @@ export class StudentsService extends BaseService<Student> {
   async findAllStudent(): Promise<any[]> {
     const students = await this.findAll();
     return Promise.all(students.map(async (p) => await this.studentRes(p)));
+  }
+
+  async updateMany(): Promise<boolean> {
+    try {
+      const students = await this.findAll();
+      for (let i = 0; i < students.length; i++) {
+        await this.updateClass(students[i]);
+      }
+      return true;
+    } catch (err) {
+      console.log(err);
+      return false;
+    }
   }
 
   async countDocumentByClass(classId: string): Promise<Number> {
@@ -102,6 +134,34 @@ export class StudentsService extends BaseService<Student> {
         ...result,
       };
     });
+  }
+
+  async updateClass(student: Student): Promise<boolean> {
+    try {
+      const studentAny: any = student;
+      let newStudent: Student = student;
+      const classroom = await this.classroomService.findOneClassroom(
+        studentAny.class,
+      );
+      let numClass = +classroom.name.substr(0, 2);
+      let subClass = classroom.name.substr(2, 2);
+      if (numClass === 12) newStudent = { ...newStudent, status: 'Tốt nghiệp' };
+      else {
+        numClass += 1;
+        const newClass = numClass.toString() + subClass;
+        const { _id, ...newClassroom } = JSON.parse(
+          JSON.stringify(await this.classroomService.findClassByName(newClass)),
+        );
+        newStudent = {
+          ...newStudent,
+          class: _id,
+        };
+      }
+      return await this.updateOne(newStudent.id, newStudent);
+    } catch (err) {
+      console.log(err);
+      return false;
+    }
   }
 
   private async studentRes(student: Student): Promise<any> {

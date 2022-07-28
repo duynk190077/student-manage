@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   Post,
+  Put,
   Req,
   Res,
   StreamableFile,
@@ -20,6 +21,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { storage } from 'src/shared/storage';
 const fs = require('fs');
 import { join } from 'path';
+import { hasRole } from 'src/auth/decorators/role.decorator';
 
 @Controller('students')
 export class StudentsController extends BaseController<Student> {
@@ -27,11 +29,13 @@ export class StudentsController extends BaseController<Student> {
     super(studentService);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<Student> {
     return await this.studentService.findOneById(id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   async findAll(): Promise<Student[]> {
     return await this.studentService.findAllStudent();
@@ -50,6 +54,11 @@ export class StudentsController extends BaseController<Student> {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Put('/update-many')
+  async updateMany(): Promise<boolean> {
+    return await this.studentService.updateMany();
+  }
+
   @Delete('/avatar/:imagename')
   async deleteAvatar(@Param('imagename') imagename: string): Promise<any> {
     await fs.unlink(`uploads/avatars/${imagename}`, (err) => {
