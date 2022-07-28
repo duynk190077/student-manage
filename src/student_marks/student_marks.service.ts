@@ -1,7 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { BaseService } from 'src/base/base.service';
+import { StudentsService } from 'src/Students/students.service';
+import { SubjectsService } from 'src/Subjects/subjects.service';
 import { StudentMark, StudentMarkDocument } from './student_mark.model';
 
 @Injectable()
@@ -9,8 +11,40 @@ export class StudentMarksService extends BaseService<StudentMark> {
   constructor(
     @InjectModel('Student_mark')
     private studentMarkModel: Model<StudentMarkDocument>,
+    @Inject(forwardRef(() => StudentsService))
+    private studentService: StudentsService,
+    private subjectService: SubjectsService,
   ) {
     super(studentMarkModel);
+  }
+
+  async createDefaultMarkForAll(semester: string): Promise<any> {
+    try {
+      const students = await this.studentService.findAll();
+      const subjects = await this.subjectService.findAll();
+      console.log(students, subjects);
+      return Promise.all(
+        students.map(async (student) => {
+          return Promise.all(
+            subjects.map(async (subject) => {
+              const defaultMark: StudentMark = {
+                semester: semester,
+                student: student.id,
+                subject: subject.name,
+                factor1: [null, null, null, null, null],
+                factor2: [null, null, null, null, null],
+                factor3: [null, null, null, null, null],
+                total: 0,
+              };
+              console.log(defaultMark);
+              return await this.create(defaultMark);
+            }),
+          );
+        }),
+      );
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   async findByStudentId(
@@ -59,6 +93,17 @@ export class StudentMarksService extends BaseService<StudentMark> {
       });
       return true;
     } catch (err) {
+      return false;
+    }
+  }
+
+  async deleteMany(semester: string): Promise<boolean> {
+    try {
+      console.log(semester);
+      await this.studentMarkModel.deleteMany({ semester: semester });
+      return true;
+    } catch (err) {
+      console.log(err);
       return false;
     }
   }

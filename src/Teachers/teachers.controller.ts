@@ -24,12 +24,12 @@ const fs = require('fs');
 import { join } from 'path';
 
 @Controller('teachers')
+@UseGuards(JwtAuthGuard)
 export class TeachersController extends BaseController<Teacher> {
   constructor(private readonly teacherService: TeachersService) {
     super(teacherService);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get()
   async findManyBySubject(
     @Query('_v') v: string,
@@ -55,7 +55,6 @@ export class TeachersController extends BaseController<Teacher> {
     return res.sendFile(join(process.cwd(), 'uploads/avatars/' + imagename));
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get('/student-mark/:id')
   async findStudentMarks(
     @Param('id') id: string,
@@ -64,14 +63,12 @@ export class TeachersController extends BaseController<Teacher> {
     return await this.teacherService.findMarks(semester, id);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Post('upload')
   @UseInterceptors(FileInterceptor('file', storage))
   async uploadImg(@UploadedFile() file, @Req() request): Promise<Object> {
     return await this.teacherService.updateImg(request.user.id, file.filename);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Delete('/avatar/:imagename')
   async deleteAvatar(@Param('imagename') imagename: string): Promise<any> {
     await fs.unlink(`uploads/avatars/${imagename}`, (err) => {

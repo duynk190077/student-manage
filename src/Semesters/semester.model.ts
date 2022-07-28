@@ -7,7 +7,7 @@ export type SemesterDocument = Semester & Document;
 export class Semester {
   id?: string;
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: String, required: true, unique: true })
   name: string;
 
   @Prop({ enum: ['Đang diễn ra', 'Kết thúc'], default: 'Đang diễn ra' })
