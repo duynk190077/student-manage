@@ -1,5 +1,5 @@
 import mongoose, { Document } from 'mongoose';
-import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 import { Parent } from 'src/parents/parent.model';
 import { Classroom } from 'src/Classrooms/classroom.model';
