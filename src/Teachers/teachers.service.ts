@@ -92,6 +92,7 @@ export class TeachersService extends BaseService<Teacher> {
               student.id,
               p.subject,
             );
+            console.log(semester);
             const { _id, factor1, factor2, factor3, ...other } = JSON.parse(
               JSON.stringify(studentmark),
             );

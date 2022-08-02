@@ -22,7 +22,6 @@ export class StudentMarksService extends BaseService<StudentMark> {
     try {
       const students = await this.studentService.findAll();
       const subjects = await this.subjectService.findAll();
-      console.log(students, subjects);
       return Promise.all(
         students.map(async (student) => {
           return Promise.all(
@@ -33,10 +32,9 @@ export class StudentMarksService extends BaseService<StudentMark> {
                 subject: subject.name,
                 factor1: [null, null, null, null, null],
                 factor2: [null, null, null, null, null],
-                factor3: [null, null, null, null, null],
+                factor3: [null],
                 total: 0,
               };
-              console.log(defaultMark);
               return await this.create(defaultMark);
             }),
           );
@@ -99,7 +97,6 @@ export class StudentMarksService extends BaseService<StudentMark> {
 
   async deleteMany(semester: string): Promise<boolean> {
     try {
-      console.log(semester);
       await this.studentMarkModel.deleteMany({ semester: semester });
       return true;
     } catch (err) {
@@ -111,16 +108,21 @@ export class StudentMarksService extends BaseService<StudentMark> {
   private calcTotalMark(studentMark: StudentMark): number {
     let total: number = 0;
     let num: number = 0;
-    num +=
-      studentMark.factor1.length +
-      studentMark.factor2.length +
-      studentMark.factor3.length;
     for (let i = 0; i < studentMark.factor1.length; i++)
-      total += studentMark.factor1[i];
+      if (studentMark.factor1[i] !== null) {
+        num++;
+        total += studentMark.factor1[i];
+      }
     for (let i = 0; i < studentMark.factor2.length; i++)
-      total += studentMark.factor2[i];
+      if (studentMark.factor2[i] !== null) {
+        num++;
+        total += studentMark.factor1[i];
+      }
     for (let i = 0; i < studentMark.factor3.length; i++)
-      total += studentMark.factor3[i];
+      if (studentMark.factor3[i] !== null) {
+        num++;
+        total += studentMark.factor1[i];
+      }
     if (num > 0) total = total / num;
     return total;
   }
